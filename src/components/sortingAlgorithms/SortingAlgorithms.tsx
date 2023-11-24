@@ -7,6 +7,7 @@ import {getBubbleSortMoves} from "../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../utils/ArrayUtils";
 import {useEffect, useState} from "react";
 import './SortingAlgorithms.css';
+import {Button, Stack} from "@mui/material";
 
 const CANVAS_WIDTH: number = 600;
 const CANVAS_HEIGHT: number = 450;
@@ -99,12 +100,12 @@ const SortingAlgorithms = () => {
             <div className='canvasContainer'>
                 <Canvas draw={draw}/>
             </div>
-            <div className='buttonContainer'>
-                <button onClick={onGenerateNewArray}>Generate new array</button>
-                <button onClick={onBubbleSort}>Bubble Sort</button>
-                <button onClick={onQuickSort}>Quick Sort</button>
-                <button onClick={onMergeSort}>Merge Sort</button>
-            </div>
+            <Stack direction={'row'} spacing={2} justifyContent={'center'}>
+                <Button onClick={onGenerateNewArray} variant={'contained'}>Generate new array</Button>
+                <Button onClick={onBubbleSort} variant={'contained'}>Bubble Sort</Button>
+                <Button onClick={onQuickSort} variant={'contained'}>Quick Sort</Button>
+                <Button onClick={onMergeSort} variant={'contained'}>Merge Sort</Button>
+            </Stack>
         </div>
     );
 };
