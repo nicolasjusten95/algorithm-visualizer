@@ -1,8 +1,9 @@
-import {MutableRefObject, useEffect, useRef} from "react";
+import React, {MutableRefObject, useEffect, useRef} from "react";
+
 
 const useCanvas = (draw: (context: CanvasRenderingContext2D) => void): MutableRefObject<HTMLCanvasElement | null> => {
 
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const canvasRef: React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         if (!canvasRef.current) {

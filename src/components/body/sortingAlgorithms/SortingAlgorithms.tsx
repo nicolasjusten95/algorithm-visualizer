@@ -1,4 +1,4 @@
-import Canvas from "../canvas/Canvas";
+import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
 import {Move, SortingResult} from "../../../api/SortingApi";
 import {Column} from "../../../api/Column";
 import {getMergeSortMoves} from "../../../algorithms/sorting/MergeSort";
@@ -6,11 +6,8 @@ import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
 import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {useEffect, useState} from "react";
-import './SortingAlgorithms.css';
-import {Button, Stack} from "@mui/material";
+import {Box, Button, ButtonGroup} from "@mui/material";
 
-const CANVAS_WIDTH: number = 600;
-const CANVAS_HEIGHT: number = 450;
 const MAX_ELEMENT_HEIGHT: number = 300;
 const CANVAS_MARGIN: number = 20;
 const MARGIN_BETWEEN_ELEMENTS: number = 4;
@@ -55,8 +52,7 @@ const SortingAlgorithms = () => {
 
     const draw = (context: CanvasRenderingContext2D): void => {
         ctx = context;
-        ctx.canvas.width = CANVAS_WIDTH;
-        ctx.canvas.height = CANVAS_HEIGHT;
+        resizeCanvasToContainerSize(ctx.canvas);
         const spacing: number = (ctx.canvas.width - CANVAS_MARGIN * 2) / NUMBER_OF_ELEMENTS;
         for (let i = 0; i < array.length; i++) {
             const x: number = i * spacing + spacing / 2 + CANVAS_MARGIN;
@@ -96,17 +92,17 @@ const SortingAlgorithms = () => {
     }
 
     return (
-        <div>
-            <div className='canvasContainer'>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+            <Box height={'400px'} width={'600px'} margin={5} id={'canvasContainer'}>
                 <Canvas draw={draw}/>
-            </div>
-            <Stack direction={'row'} spacing={2} justifyContent={'center'}>
-                <Button onClick={onGenerateNewArray} variant={'contained'}>Generate new array</Button>
-                <Button onClick={onBubbleSort} variant={'contained'}>Bubble Sort</Button>
-                <Button onClick={onQuickSort} variant={'contained'}>Quick Sort</Button>
-                <Button onClick={onMergeSort} variant={'contained'}>Merge Sort</Button>
-            </Stack>
-        </div>
+            </Box>
+            <ButtonGroup variant={'contained'} sx={{m: 2}}>
+                <Button onClick={onGenerateNewArray}>Generate new array</Button>
+                <Button onClick={onBubbleSort}>Bubble Sort</Button>
+                <Button onClick={onQuickSort}>Quick Sort</Button>
+                <Button onClick={onMergeSort}>Merge Sort</Button>
+            </ButtonGroup>
+        </Box>
     );
 };
 

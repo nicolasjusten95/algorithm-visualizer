@@ -1,8 +1,19 @@
 import {MutableRefObject} from "react";
 import useCanvas from "./useCanvas";
 
-interface CanvasProps {
+
+export interface CanvasProps {
     draw: (context: CanvasRenderingContext2D) => void;
+}
+
+export function resizeCanvasToContainerSize(canvas: HTMLCanvasElement) {
+    const canvasContainer: HTMLElement | null = document.getElementById("canvasContainer");
+    if (canvasContainer) {
+        const width: number = canvasContainer.offsetWidth;
+        const height: number = canvasContainer.offsetHeight;
+        canvas.width = width;
+        canvas.height = height;
+    }
 }
 
 const Canvas = (props: CanvasProps) => {
@@ -10,7 +21,7 @@ const Canvas = (props: CanvasProps) => {
     const {draw, ...rest} = props;
     const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useCanvas(props.draw);
 
-    return <canvas ref={canvasRef} {...rest}/>
+    return <canvas ref={canvasRef} {...rest} />
 }
 
 export default Canvas;
