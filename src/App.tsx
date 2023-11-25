@@ -7,12 +7,14 @@ import {theme} from "./utils/MuiTheme";
 
 
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-        <NavBar />
-        <SortingAlgorithms />
-    </ThemeProvider>
-  );
+    return (
+        <div className='App'>
+            <ThemeProvider theme={theme}>
+                <NavBar/>
+                <SortingAlgorithms/>
+            </ThemeProvider>
+        </div>
+    );
 }
 
 export default App;
