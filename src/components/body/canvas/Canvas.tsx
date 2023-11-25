@@ -6,11 +6,11 @@ export interface CanvasProps {
     draw: (context: CanvasRenderingContext2D) => void;
 }
 
-export function resizeCanvasToContainerSize(canvas: HTMLCanvasElement) {
+export function resizeCanvasToContainerSize(canvas: HTMLCanvasElement): void {
     const canvasContainer: HTMLElement | null = document.getElementById("canvasContainer");
     if (canvasContainer) {
         const width: number = canvasContainer.offsetWidth;
-        const height: number = canvasContainer.offsetHeight;
+        const height: number = 2 / 3 * width;
         canvas.width = width;
         canvas.height = height;
     }

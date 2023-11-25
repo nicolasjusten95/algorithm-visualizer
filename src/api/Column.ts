@@ -19,7 +19,7 @@ export class Column {
 
     moveTo(location: { x: number, y: number }, yOffSet: number, frameCount: number) {
         for (let i = 1; i <= frameCount; i++) {
-            const  t = i / frameCount;
+            const t = i / frameCount;
             const u = Math.sin(t * Math.PI);
             this.queue.push({
                 x: getPositionRelativeToTimeFrame(this.x, location.x, t),

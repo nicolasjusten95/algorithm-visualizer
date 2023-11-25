@@ -8,7 +8,9 @@ import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {useEffect, useState} from "react";
 import {Box, Button, ButtonGroup} from "@mui/material";
 
-const MAX_ELEMENT_HEIGHT: number = 300;
+
+const MAX_RELATIVE_HEIGHT_FOR_COLUMNS: number = 0.65;
+const FACTOR_FOR_DIAGONAL_SHIFT: number = 2.5;
 const CANVAS_MARGIN: number = 20;
 const MARGIN_BETWEEN_ELEMENTS: number = 4;
 const NUMBER_OF_ELEMENTS: number = 20;
@@ -56,9 +58,9 @@ const SortingAlgorithms = () => {
         const spacing: number = (ctx.canvas.width - CANVAS_MARGIN * 2) / NUMBER_OF_ELEMENTS;
         for (let i = 0; i < array.length; i++) {
             const x: number = i * spacing + spacing / 2 + CANVAS_MARGIN;
-            const y: number = ctx.canvas.height - CANVAS_MARGIN - i * 3;
+            const y: number = ctx.canvas.height - CANVAS_MARGIN - i * FACTOR_FOR_DIAGONAL_SHIFT;
             const width: number = spacing - MARGIN_BETWEEN_ELEMENTS;
-            const height: number = MAX_ELEMENT_HEIGHT * array[i];
+            const height: number = ctx.canvas.height * MAX_RELATIVE_HEIGHT_FOR_COLUMNS * array[i];
             cols[i] = new Column(x, y, width, height);
         }
         animate();
@@ -93,7 +95,7 @@ const SortingAlgorithms = () => {
 
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
-            <Box height={'400px'} width={'600px'} margin={5} id={'canvasContainer'}>
+            <Box width={'50%'} minWidth={'350px'} m={2} id={'canvasContainer'}>
                 <Canvas draw={draw}/>
             </Box>
             <ButtonGroup variant={'contained'} sx={{m: 2}}>
