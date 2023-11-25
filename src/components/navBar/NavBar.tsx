@@ -21,7 +21,7 @@ import SortIcon from '@mui/icons-material/Sort';
 
 
 const title: string = 'Algorithm Visualizer';
-const icon: JSX.Element = <BarChartIcon/>;
+const icon: React.ReactElement = <BarChartIcon/>;
 const pages: Page [] = [
     {name: 'Sorting Algorithms', icon: <SortIcon/>, key: 1},
     {name: 'Settings', icon: <SettingsIcon/>, key: 2}
@@ -39,13 +39,13 @@ const NavBar = () => {
         setAnchorNav(null);
     };
 
-    const getButtonFromPage = (page: Page): JSX.Element => {
+    const getButtonFromPage = (page: Page): React.ReactElement => {
         return <Button key={page.key} startIcon={page.icon} color={'inherit'}>
             <Typography>{page.name}</Typography>
         </Button>;
     };
 
-    const getMenuItemFromPage = (page: Page): JSX.Element => {
+    const getMenuItemFromPage = (page: Page): React.ReactElement => {
         return <MenuItem>
             <ListItemIcon>{page.icon}</ListItemIcon>
             <ListItemText>

@@ -1,5 +1,7 @@
+import React from "react";
+
 export interface Page {
     name: string;
-    icon: JSX.Element;
+    icon: React.ReactElement;
     key: number;
 }
