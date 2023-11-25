@@ -15,7 +15,7 @@ import {
 import BarChartIcon from '@mui/icons-material/BarChart';
 import MenuIcon from '@mui/icons-material/Menu';
 import React, {MouseEvent, useState} from "react";
-import {Page} from "../../api/NavBarApi";
+import {Page} from "../../../api/NavBarApi";
 import SettingsIcon from '@mui/icons-material/Settings';
 import SortIcon from '@mui/icons-material/Sort';
 

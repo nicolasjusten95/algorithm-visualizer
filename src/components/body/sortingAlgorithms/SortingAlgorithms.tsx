@@ -1,10 +1,10 @@
 import Canvas from "../canvas/Canvas";
-import {Move, SortingResult} from "../../api/SortingApi";
-import {Column} from "../../api/Column";
-import {getMergeSortMoves} from "../../algorithms/sorting/MergeSort";
-import {getQuickSortMoves} from "../../algorithms/sorting/QuickSort";
-import {getBubbleSortMoves} from "../../algorithms/sorting/BubbleSort";
-import {generateRandomArrayWithoutDuplicates} from "../../utils/ArrayUtils";
+import {Move, SortingResult} from "../../../api/SortingApi";
+import {Column} from "../../../api/Column";
+import {getMergeSortMoves} from "../../../algorithms/sorting/MergeSort";
+import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
+import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
+import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {useEffect, useState} from "react";
 import './SortingAlgorithms.css';
 import {Button, Stack} from "@mui/material";
