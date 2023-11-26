@@ -23,6 +23,7 @@ const SortingAlgorithms = () => {
 
     const columns: Column[] = [];
     let moves: Move[] = [];
+    let isSorted: boolean = false;
 
     useEffect(() => {
         resetArray();
@@ -47,16 +48,25 @@ const SortingAlgorithms = () => {
     }
 
     function onBubbleSort() {
+        if (isSorted) {
+            return;
+        }
         const result: SortingResult = getBubbleSortMoves(array);
         moves = result.moves;
     }
 
     function onQuickSort() {
+        if (isSorted) {
+            return;
+        }
         const result: SortingResult = getQuickSortMoves(array);
         moves = result.moves;
     }
 
     function onMergeSort() {
+        if (isSorted) {
+            return;
+        }
         const result: SortingResult = getMergeSortMoves(array);
         moves = result.moves;
     }
