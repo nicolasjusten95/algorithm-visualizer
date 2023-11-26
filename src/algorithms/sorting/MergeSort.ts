@@ -21,6 +21,7 @@ function mergeSort(array: number[], elementToIndexMap: Map<number, number>, move
         return array;
     }
 
+    // Split array in half and do merge sort for each half
     const middleIndex = Math.floor(array.length / 2);
     const firstHalf: number[] = mergeSort(array.slice(0, middleIndex), elementToIndexMap, moves);
     const secondHalf: number[] = mergeSort(array.slice(middleIndex), elementToIndexMap, moves);
@@ -29,6 +30,8 @@ function mergeSort(array: number[], elementToIndexMap: Map<number, number>, move
     let i: number = 0;
     let j: number = 0;
     while (i < firstHalf.length && j < secondHalf.length) {
+        // Add current element from first half if it's lower than current element of second half, else add current
+        // element from second half
         if (firstHalf[i] < secondHalf[j]) {
             moves.push({
                 indices: [elementToIndexMap.get(firstHalf[i]) ?? 0,
@@ -36,7 +39,7 @@ function mergeSort(array: number[], elementToIndexMap: Map<number, number>, move
             });
             sortedArray.push(firstHalf[i++]);
         } else {
-            // Create move for every item that is behind the pointer of the first half array
+            // Create move for every item that is behind the current element of first half
             const elementFromSecondHalf: number = secondHalf[j];
             for (let k: number = firstHalf.length - 1; k >= i; k--) {
                 const currentElementOfFirstHalf: number = firstHalf[k];
@@ -53,10 +56,12 @@ function mergeSort(array: number[], elementToIndexMap: Map<number, number>, move
         }
     }
 
+    // Add remaining elements of first half
     while (i < firstHalf.length) {
         sortedArray.push(firstHalf[i++]);
     }
 
+    // Add remaining elements of second half
     while (j < secondHalf.length) {
         sortedArray.push(secondHalf[j++]);
     }
