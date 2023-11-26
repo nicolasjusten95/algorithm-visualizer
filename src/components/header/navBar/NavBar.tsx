@@ -55,7 +55,7 @@ const NavBar = () => {
     };
 
     return (
-        <AppBar position='static'>
+        <AppBar position='static' sx={{mb: 2}}>
             <Toolbar>
                 {/*Desktop*/}
                 <IconButton size={'large'} edge={'start'} color={'inherit'} aria-label={'logo'}

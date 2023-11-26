@@ -103,7 +103,7 @@ const SortingAlgorithms = () => {
     }
 
     return (
-        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} flexGrow={1}>
             <Box width={'50%'} minWidth={'350px'} m={2} id={'canvasContainer'}>
                 <Canvas draw={draw}/>
             </Box>

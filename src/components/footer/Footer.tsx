@@ -7,7 +7,7 @@ const Footer = () => {
             component='footer'
             width={'100%'}
             sx={{backgroundColor: '#e8e4db'}}
-            mt={5}
+            mt={2}
             display={'flex'}
             flexDirection={'column'}
             alignItems={'center'}
