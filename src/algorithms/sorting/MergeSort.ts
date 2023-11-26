@@ -30,16 +30,20 @@ function mergeSort(array: number[], elementToIndexMap: Map<number, number>, move
     let j: number = 0;
     while (i < firstHalf.length && j < secondHalf.length) {
         if (firstHalf[i] < secondHalf[j]) {
-            moves.push({indices: [elementToIndexMap.get(firstHalf[i]) ?? 0,
-                    elementToIndexMap.get(secondHalf[j]) ?? 0], swap: false});
+            moves.push({
+                indices: [elementToIndexMap.get(firstHalf[i]) ?? 0,
+                    elementToIndexMap.get(secondHalf[j]) ?? 0], swap: false
+            });
             sortedArray.push(firstHalf[i++]);
         } else {
             // Create move for every item that is behind the pointer of the first half array
             const elementFromSecondHalf: number = secondHalf[j];
             for (let k: number = firstHalf.length - 1; k >= i; k--) {
                 const currentElementOfFirstHalf: number = firstHalf[k];
-                moves.push({indices: [elementToIndexMap.get(currentElementOfFirstHalf) ?? 0,
-                        elementToIndexMap.get(elementFromSecondHalf) ?? 0], swap: true});
+                moves.push({
+                    indices: [elementToIndexMap.get(currentElementOfFirstHalf) ?? 0,
+                        elementToIndexMap.get(elementFromSecondHalf) ?? 0], swap: true
+                });
                 const indexOfSwapItem = elementToIndexMap.get(elementFromSecondHalf) ?? 0;
                 const indexOfSwap = elementToIndexMap.get(currentElementOfFirstHalf) ?? 0;
                 elementToIndexMap.set(elementFromSecondHalf, indexOfSwap);

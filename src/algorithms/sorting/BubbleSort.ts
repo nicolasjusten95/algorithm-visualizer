@@ -21,5 +21,5 @@ function bubbleSort(array: number[], moves: Move[]): void {
             }
         }
         n = n - 1;
-    } while(swapped);
+    } while (swapped);
 }

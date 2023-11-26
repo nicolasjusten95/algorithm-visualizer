@@ -33,8 +33,10 @@ function partition(array: number[], low: number, high: number, moves: Move[]): n
         // If element is <= pivot move temporary pivot forward and swap element with temporary pivot element
         if (array[j] <= pivot) {
             i++;
-            [array[i], array[j]] = [array[j], array[i]];
-            moves.push({indices: [i, j], swap: true});
+            if (i !== j) {
+                [array[i], array[j]] = [array[j], array[i]];
+                moves.push({indices: [i, j], swap: true});
+            }
         } else {
             moves.push({indices: [j, high], swap: false});
         }
