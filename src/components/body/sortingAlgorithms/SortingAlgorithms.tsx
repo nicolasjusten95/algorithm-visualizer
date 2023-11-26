@@ -9,9 +9,12 @@ import {useEffect, useState} from "react";
 import {Box, Button, ButtonGroup, Slider, Typography} from "@mui/material";
 
 
-const MAX_RELATIVE_HEIGHT_FOR_COLUMNS: number = 0.65;
-const FACTOR_FOR_DIAGONAL_SHIFT: number = 2.5;
-const CANVAS_MARGIN: number = 20;
+const MAX_RELATIVE_HEIGHT_LOW_SIZES: number = 0.5;
+const MAX_RELATIVE_HEIGHT_HIGH_SIZES: number = 0.8;
+const DIAGONAL_FACTOR_LOW_SIZES: number = 1;
+const DIAGONAL_FACTOR_HIGH_SIZES: number = 0.5;
+const CANVAS_MARGIN_FACTOR_HIGH_SIZES: number = 0.2;
+const CANVAS_MARGIN_FACTOR_LOW_SIZES: number = 0.4;
 const MARGIN_BETWEEN_ELEMENTS: number = 4;
 
 const SortingAlgorithms = () => {
@@ -95,12 +98,16 @@ const SortingAlgorithms = () => {
         }
 
         resizeCanvasToContainerSize(canvasContext.canvas);
-        const spacing: number = (canvasContext.canvas.width - CANVAS_MARGIN * 2) / array.length;
+        const diagonalFactor: number = array.length > 20 ? DIAGONAL_FACTOR_HIGH_SIZES : DIAGONAL_FACTOR_LOW_SIZES;
+        const canvasMarginFactor: number = array.length > 8 ? CANVAS_MARGIN_FACTOR_HIGH_SIZES : CANVAS_MARGIN_FACTOR_LOW_SIZES;
+        const canvasMargin: number = canvasContext.canvas.height * canvasMarginFactor * 0.5;
+        const maxRelativeHeight: number = array.length > 8 ? MAX_RELATIVE_HEIGHT_HIGH_SIZES : MAX_RELATIVE_HEIGHT_LOW_SIZES;
+        const spacing: number = (canvasContext.canvas.width - canvasMargin * 2) / array.length;
         for (let i = 0; i < array.length; i++) {
-            const x: number = i * spacing + spacing / 2 + CANVAS_MARGIN;
-            const y: number = canvasContext.canvas.height - CANVAS_MARGIN - i * FACTOR_FOR_DIAGONAL_SHIFT;
+            const x: number = i * spacing + spacing / 2 + canvasMargin;
+            const y: number = canvasContext.canvas.height - canvasMargin - i * diagonalFactor;
             const width: number = spacing - MARGIN_BETWEEN_ELEMENTS;
-            const height: number = canvasContext.canvas.height * MAX_RELATIVE_HEIGHT_FOR_COLUMNS * array[i];
+            const height: number = canvasContext.canvas.height * maxRelativeHeight * array[i];
             columns[i] = new Column(x, y, width, height);
         }
 
@@ -151,24 +158,24 @@ const SortingAlgorithms = () => {
                 justifyContent='space-between'
                 sx={{flexDirection: {xs: 'column', md: 'row'}}}>
                 <Box sx={{width: {xs: '100%', md: '45%'}}}>
-                <Typography>Array Size</Typography>
-                <Slider
-                    value={arraySize}
-                    onChange={onChangeArraySize}
-                    step={1}
-                    min={2}
-                    max={50}
-                    valueLabelDisplay='auto'/>
+                    <Typography>Array Size</Typography>
+                    <Slider
+                        value={arraySize}
+                        onChange={onChangeArraySize}
+                        step={1}
+                        min={5}
+                        max={50}
+                        valueLabelDisplay='auto'/>
                 </Box>
                 <Box sx={{width: {xs: '100%', md: '45%'}}}>
-                <Typography>Frames Per Animation</Typography>
-                <Slider
-                    value={frameCount}
-                    onChange={onChangeFrameCount}
-                    step={1}
-                    min={1}
-                    max={50}
-                    valueLabelDisplay='auto'/>
+                    <Typography>Frames Per Animation</Typography>
+                    <Slider
+                        value={frameCount}
+                        onChange={onChangeFrameCount}
+                        step={1}
+                        min={1}
+                        max={50}
+                        valueLabelDisplay='auto'/>
                 </Box>
             </Box>
             <Box
