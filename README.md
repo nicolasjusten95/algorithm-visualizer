@@ -1,8 +1,8 @@
 # Algorithm Visualizer
 
-This project is a responsive algorithm visualization application.
-Currently, it supports visualization for three major sorting algorithms:
-Bubble Sort, Quick Sort and Merge Sort.
+This project is an interactive and responsive algorithm visualization 
+application. Currently, it supports visualization for three major sorting 
+algorithms: Bubble Sort, Quick Sort and Merge Sort.
 
 The goal of this project is to provide a clear, interactive visualization 
 tool for students, developers and anyone interested in understanding how 
@@ -12,6 +12,8 @@ sorting algorithms work.
 
 - Visualizations of Bubble Sort, Quick Sort and Merge Sort algorithms
 - Step-by-Step animations for easy understanding
+- Adjustable animation speed
+- Adjustable array size
 
 ## Installation
 
@@ -24,8 +26,11 @@ browser
 
 ## Usage
 
-Select the algorithm you want by clicking the corresponding button.
-Generate a new random array by clicking the corresponding button.
+- Start the visualization of the sorting algorithm you want by clicking 
+the corresponding button.
+- Generate a new random array by clicking the *Generate new array* button.
+- Set the array size by adjusting the *Array Size* slider.
+- Set the animation speed by adjusting the *Frames Per Animation* slider.
 
 ## Demo
 

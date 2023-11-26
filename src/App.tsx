@@ -1,6 +1,6 @@
 import React from 'react';
 import SortingAlgorithms from "./components/body/sortingAlgorithms/SortingAlgorithms";
-import NavBar from "./components/header/navBar/NavBar";
+import Header from "./components/header/Header";
 import {Box, ThemeProvider} from "@mui/material";
 import {theme} from "./utils/MuiTheme";
 import Footer from "./components/footer/Footer";
@@ -13,7 +13,7 @@ function App() {
                 minHeight={'100vh'}
                 display={'flex'}
                 flexDirection={'column'}>
-                <NavBar/>
+                <Header/>
                 <SortingAlgorithms/>
                 <Footer/>
             </Box>
