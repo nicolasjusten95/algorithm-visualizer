@@ -45,7 +45,7 @@ const Header = () => {
     };
 
     const getMenuItemFromPage = (page: Page): React.ReactElement => {
-        return <MenuItem>
+        return <MenuItem key={page.key}>
             <ListItemIcon>{page.icon}</ListItemIcon>
             <ListItemText>
                 <Typography>{page.name}</Typography>
