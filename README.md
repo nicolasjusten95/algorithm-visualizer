@@ -21,16 +21,17 @@ In the project directory, follow the steps below:
 
 1. Install required npm packages: ``npm install``
 2. Start the application: ``npm start``
-3. Open [http://localhost:3000](http://localhost:3000) to view it in the 
-browser
+3. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
 ## Usage
 
 - Start the visualization of the sorting algorithm you want by clicking 
 the corresponding button.
 - Generate a new random array by clicking the *Generate new array* button.
-- Set the array size by adjusting the *Array Size* slider.
-- Set the animation speed by adjusting the *Frames Per Animation* slider.
+- Set the array size by navigating to the settings page and adjusting the 
+*Array Size* slider.
+- Set the animation speed by navigating to the settings page and adjusting 
+the *Frames Per Animation* slider.
 
 ## Demo
 

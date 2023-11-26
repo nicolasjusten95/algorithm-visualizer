@@ -17,35 +17,56 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, {MouseEvent, useState} from "react";
 import {Page} from "../../api/NavBarApi";
 import SortIcon from '@mui/icons-material/Sort';
+import {Settings} from "@mui/icons-material";
 
 
-const title: string = 'Algorithm Visualizer';
-const icon: React.ReactElement = <BarChartIcon/>;
-const pages: Page [] = [{name: 'Sorting Algorithms', icon: <SortIcon/>, key: 1}];
+interface HeaderProps {
+    setIsShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const Header = () => {
+const Header = (props: HeaderProps) => {
 
     const [anchorNav, setAnchorNav] = useState<null | HTMLElement>(null);
 
-    const onOpenMenu = (event: MouseEvent<HTMLElement>) => {
+    const onOpenMenu = (event: MouseEvent<HTMLElement>): void => {
         setAnchorNav(event.currentTarget);
     };
 
-    const onCloseMenu = () => {
+    const onCloseMenu = (): void => {
         setAnchorNav(null);
     };
+
+    const onSortingAlgorithms = (): void => {
+        props.setIsShowSettings(false);
+        onCloseMenu();
+    }
+
+    const onSettings = (): void => {
+        props.setIsShowSettings(true);
+        onCloseMenu();
+    }
+
+    const title: string = 'Algorithm Visualizer';
+    const icon: React.ReactElement = <BarChartIcon/>;
+    const pages: Page [] = [
+        {name: 'Sorting Algorithms', icon: <SortIcon/>, onClick: onSortingAlgorithms, key: 1},
+        {name: 'Settings', icon: <Settings/>, onClick: onSettings, key: 2}
+    ];
 
     const getButtonFromPage = (page: Page): React.ReactElement => {
         return <Button
             key={page.key}
             startIcon={page.icon}
+            onClick={page.onClick}
             color='inherit'>
             <Typography>{page.name}</Typography>
         </Button>;
     };
 
     const getMenuItemFromPage = (page: Page): React.ReactElement => {
-        return <MenuItem key={page.key}>
+        return <MenuItem
+            key={page.key}
+            onClick={page.onClick}>
             <ListItemIcon>{page.icon}</ListItemIcon>
             <ListItemText>
                 <Typography>{page.name}</Typography>
@@ -62,7 +83,8 @@ const Header = () => {
                     size='large'
                     edge='start'
                     color='inherit'
-                    aria-label='logo'>
+                    aria-label='logo'
+                    onClick={onSortingAlgorithms}>
                     {icon}
                 </IconButton>
                 <Typography

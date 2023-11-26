@@ -5,9 +5,14 @@ import {getMergeSortMoves} from "../../../algorithms/sorting/MergeSort";
 import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
 import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
-import {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, Slider, Typography} from "@mui/material";
+import {Fragment, useEffect, useState} from "react";
+import {Box, Button, ButtonGroup} from "@mui/material";
 
+
+interface SortingAlgorithmsProps {
+    arraySize: number;
+    frameCount: number;
+}
 
 const MAX_RELATIVE_HEIGHT_LOW_SIZES: number = 0.5;
 const MAX_RELATIVE_HEIGHT_HIGH_SIZES: number = 0.8;
@@ -17,23 +22,13 @@ const CANVAS_MARGIN_FACTOR_HIGH_SIZES: number = 0.2;
 const CANVAS_MARGIN_FACTOR_LOW_SIZES: number = 0.4;
 const MARGIN_BETWEEN_ELEMENTS: number = 4;
 
-const SortingAlgorithms = () => {
+const SortingAlgorithms = (props: SortingAlgorithmsProps) => {
 
     const [array, setArray] = useState<number[]>([]);
     const [canvasContext, setCanvasContext] = useState<CanvasRenderingContext2D | null>(null);
-    const [arraySize, setArraySize] = useState<number>(20);
-    const [frameCount, setFrameCount] = useState<number>(20);
 
     const columns: Column[] = [];
     let moves: Move[] = [];
-
-    useEffect(() => {
-        resetArray();
-    }, [arraySize]);
-
-    useEffect(() => {
-        setArray(array);
-    }, [frameCount, array]);
 
     useEffect(() => {
         resetArray();
@@ -49,20 +44,12 @@ const SortingAlgorithms = () => {
     }
 
     const resetArray = (): void => {
-        const newArray: number[] = generateRandomArrayWithoutDuplicates(arraySize);
+        const newArray: number[] = generateRandomArrayWithoutDuplicates(props.arraySize);
         setArray(newArray);
     }
 
     function onGenerateNewArray() {
         resetArray();
-    }
-
-    function onChangeArraySize(event: Event, newValue: number | number[]) {
-        setArraySize(newValue as number);
-    }
-
-    function onChangeFrameCount(event: Event, newValue: number | number[]) {
-        setFrameCount(newValue as number);
     }
 
     function onBubbleSort() {
@@ -132,12 +119,12 @@ const SortingAlgorithms = () => {
             if (move) {
                 const [i, j] = move.indices;
                 if (move.swap) {
-                    columns[i].moveTo(columns[j], 1, frameCount);
-                    columns[j].moveTo(columns[i], -1, frameCount);
+                    columns[i].moveTo(columns[j], 1, props.frameCount);
+                    columns[j].moveTo(columns[i], -1, props.frameCount);
                     [columns[i], columns[j]] = [columns[j], columns[i]];
                 } else {
-                    columns[i].jump(frameCount);
-                    columns[j].jump(frameCount);
+                    columns[i].jump(props.frameCount);
+                    columns[j].jump(props.frameCount);
                 }
             }
         }
@@ -146,38 +133,7 @@ const SortingAlgorithms = () => {
     }
 
     return (
-        <Box
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            justifyContent='center'
-            flexGrow={1}>
-            <Box
-                width='50%'
-                display='flex'
-                justifyContent='space-between'
-                sx={{flexDirection: {xs: 'column', md: 'row'}}}>
-                <Box sx={{width: {xs: '100%', md: '45%'}}}>
-                    <Typography>Array Size</Typography>
-                    <Slider
-                        value={arraySize}
-                        onChange={onChangeArraySize}
-                        step={1}
-                        min={5}
-                        max={50}
-                        valueLabelDisplay='auto'/>
-                </Box>
-                <Box sx={{width: {xs: '100%', md: '45%'}}}>
-                    <Typography>Frames Per Animation</Typography>
-                    <Slider
-                        value={frameCount}
-                        onChange={onChangeFrameCount}
-                        step={1}
-                        min={1}
-                        max={50}
-                        valueLabelDisplay='auto'/>
-                </Box>
-            </Box>
+        <Fragment>
             <Box
                 width='50%'
                 minWidth='350px'
@@ -193,7 +149,7 @@ const SortingAlgorithms = () => {
                 <Button onClick={onQuickSort}>Quick Sort</Button>
                 <Button onClick={onMergeSort}>Merge Sort</Button>
             </ButtonGroup>
-        </Box>
+        </Fragment>
     );
 };
 
