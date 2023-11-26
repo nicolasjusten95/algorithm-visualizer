@@ -26,7 +26,16 @@ const SortingAlgorithms = () => {
 
     useEffect(() => {
         resetArray();
+        // Re-render component if screensize changes to adjust canvas
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
     }, []);
+
+    function handleResize() {
+        resetArray();
+    }
 
     const resetArray = (): void => {
         const newArray: number[] = generateRandomArrayWithoutDuplicates(NUMBER_OF_ELEMENTS);
