@@ -19,10 +19,10 @@ const FRAME_COUNT: number = 20;
 const SortingAlgorithms = () => {
 
     const [array, setArray] = useState<number[]>([]);
+    const [canvasContext, setCanvasContext] = useState<CanvasRenderingContext2D | null>(null);
 
-    const cols: Column[] = [];
+    const columns: Column[] = [];
     let moves: Move[] = [];
-    let ctx: CanvasRenderingContext2D;
 
     useEffect(() => {
         resetArray();
@@ -62,26 +62,37 @@ const SortingAlgorithms = () => {
     }
 
     const draw = (context: CanvasRenderingContext2D): void => {
-        ctx = context;
-        resizeCanvasToContainerSize(ctx.canvas);
-        const spacing: number = (ctx.canvas.width - CANVAS_MARGIN * 2) / NUMBER_OF_ELEMENTS;
+
+        setCanvasContext(context);
+
+        if (!canvasContext) {
+            return;
+        }
+
+        resizeCanvasToContainerSize(canvasContext.canvas);
+        const spacing: number = (canvasContext.canvas.width - CANVAS_MARGIN * 2) / NUMBER_OF_ELEMENTS;
         for (let i = 0; i < array.length; i++) {
             const x: number = i * spacing + spacing / 2 + CANVAS_MARGIN;
-            const y: number = ctx.canvas.height - CANVAS_MARGIN - i * FACTOR_FOR_DIAGONAL_SHIFT;
+            const y: number = canvasContext.canvas.height - CANVAS_MARGIN - i * FACTOR_FOR_DIAGONAL_SHIFT;
             const width: number = spacing - MARGIN_BETWEEN_ELEMENTS;
-            const height: number = ctx.canvas.height * MAX_RELATIVE_HEIGHT_FOR_COLUMNS * array[i];
-            cols[i] = new Column(x, y, width, height);
+            const height: number = canvasContext.canvas.height * MAX_RELATIVE_HEIGHT_FOR_COLUMNS * array[i];
+            columns[i] = new Column(x, y, width, height);
         }
+
         animate();
     }
 
     function animate() {
 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        if (!canvasContext) {
+            return;
+        }
+
+        canvasContext.clearRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height);
 
         let changed = false;
-        for (const col of cols) {
-            changed = col.draw(ctx) || changed;
+        for (const col of columns) {
+            changed = col.draw(canvasContext) || changed;
         }
 
         if (!changed && moves.length > 0) {
@@ -89,12 +100,12 @@ const SortingAlgorithms = () => {
             if (move) {
                 const [i, j] = move.indices;
                 if (move.swap) {
-                    cols[i].moveTo(cols[j], 1, FRAME_COUNT);
-                    cols[j].moveTo(cols[i], -1, FRAME_COUNT);
-                    [cols[i], cols[j]] = [cols[j], cols[i]];
+                    columns[i].moveTo(columns[j], 1, FRAME_COUNT);
+                    columns[j].moveTo(columns[i], -1, FRAME_COUNT);
+                    [columns[i], columns[j]] = [columns[j], columns[i]];
                 } else {
-                    cols[i].jump(FRAME_COUNT);
-                    cols[j].jump(FRAME_COUNT);
+                    columns[i].jump(FRAME_COUNT);
+                    columns[j].jump(FRAME_COUNT);
                 }
             }
         }
