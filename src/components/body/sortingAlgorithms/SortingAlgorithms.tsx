@@ -23,7 +23,6 @@ const SortingAlgorithms = () => {
 
     const columns: Column[] = [];
     let moves: Move[] = [];
-    let isSorted: boolean = false;
 
     useEffect(() => {
         resetArray();
@@ -48,7 +47,7 @@ const SortingAlgorithms = () => {
     }
 
     function onBubbleSort() {
-        if (isSorted) {
+        if (moves.length > 0) {
             return;
         }
         const result: SortingResult = getBubbleSortMoves(array);
@@ -56,7 +55,7 @@ const SortingAlgorithms = () => {
     }
 
     function onQuickSort() {
-        if (isSorted) {
+        if (moves.length > 0) {
             return;
         }
         const result: SortingResult = getQuickSortMoves(array);
@@ -64,7 +63,7 @@ const SortingAlgorithms = () => {
     }
 
     function onMergeSort() {
-        if (isSorted) {
+        if (moves.length > 0) {
             return;
         }
         const result: SortingResult = getMergeSortMoves(array);
