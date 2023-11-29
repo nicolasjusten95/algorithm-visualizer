@@ -8,6 +8,8 @@ import Body from "./components/body/Body";
 
 function App() {
 
+    const [isShowSearchingAlgorithms, setIsShowSearchingAlgorithms] = useState<boolean>(true);
+    const [isShowSortingAlgorithms, setIsShowSortingAlgorithms] = useState<boolean>(false);
     const [isShowSettings, setIsShowSettings] = useState<boolean>(false);
 
     return (
@@ -16,8 +18,14 @@ function App() {
                 minHeight={'100vh'}
                 display={'flex'}
                 flexDirection={'column'}>
-                <Header setIsShowSettings={setIsShowSettings}/>
-                <Body isShowSettings={isShowSettings}/>
+                <Header
+                    setIsShowSearchingAlgorithms={setIsShowSearchingAlgorithms}
+                    setIsShowSortingAlgorithms={setIsShowSortingAlgorithms}
+                    setIsShowSettings={setIsShowSettings}/>
+                <Body
+                    isShowSearchingAlgorithms={isShowSearchingAlgorithms}
+                    isShowSortingAlgorithms={isShowSortingAlgorithms}
+                    isShowSettings={isShowSettings}/>
                 <Footer/>
             </Box>
         </ThemeProvider>

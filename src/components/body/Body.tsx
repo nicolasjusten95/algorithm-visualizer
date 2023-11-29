@@ -2,9 +2,12 @@ import SortingAlgorithms from "./sortingAlgorithms/SortingAlgorithms";
 import React, {useState} from "react";
 import {Box} from "@mui/material";
 import Settings from "./settings/Settings";
+import SearchingAlgorithms from "./SearchingAlgorithms";
 
 
 interface BodyProps {
+    isShowSearchingAlgorithms: boolean;
+    isShowSortingAlgorithms: boolean;
     isShowSettings: boolean;
 }
 
@@ -20,15 +23,17 @@ const Body = (props: BodyProps) => {
             alignItems='center'
             justifyContent='center'
             flexGrow={1}>
-            {props.isShowSettings ?
-                <Settings
-                    arraySize={arraySize}
-                    setArraySize={setArraySize}
-                    frameCount={frameCount}
-                    setFrameCount={setFrameCount}/> :
-                <SortingAlgorithms
-                    arraySize={arraySize}
-                    frameCount={frameCount}/>}
+            {props.isShowSearchingAlgorithms && <SearchingAlgorithms
+                arraySize={arraySize}
+                frameCount={frameCount}/>}
+            {props.isShowSortingAlgorithms && <SortingAlgorithms
+                arraySize={arraySize}
+                frameCount={frameCount}/>}
+            {props.isShowSettings && <Settings
+                arraySize={arraySize}
+                setArraySize={setArraySize}
+                frameCount={frameCount}
+                setFrameCount={setFrameCount}/>}
         </Box>
     );
 };

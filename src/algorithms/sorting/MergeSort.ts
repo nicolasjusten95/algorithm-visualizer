@@ -1,8 +1,8 @@
-import {Move, SortingResult} from "../../api/SortingApi";
+import {SortMove, SortingResult} from "../../api/SortingApi";
 
 export function getMergeSortMoves(array: number[]): SortingResult {
 
-    const moves: Move[] = [];
+    const moves: SortMove[] = [];
 
     if (array.length <= 1) {
         return {sortedArray: array, moves: moves};
@@ -15,7 +15,7 @@ export function getMergeSortMoves(array: number[]): SortingResult {
     return {sortedArray: sortedArray, moves: moves};
 }
 
-function mergeSort(array: number[], elementToIndexMap: Map<number, number>, moves: Move[]): number[] {
+function mergeSort(array: number[], elementToIndexMap: Map<number, number>, moves: SortMove[]): number[] {
 
     if (array.length === 1) {
         return array;

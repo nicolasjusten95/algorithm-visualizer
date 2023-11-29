@@ -1,12 +1,12 @@
-import {Move, SortingResult} from "../../api/SortingApi";
+import {SortMove, SortingResult} from "../../api/SortingApi";
 
 export function getQuickSortMoves(array: number[]): SortingResult {
-    const moves: Move[] = [];
+    const moves: SortMove[] = [];
     quickSort(array, 0, array.length - 1, moves);
     return {sortedArray: array, moves: moves};
 }
 
-function quickSort(array: number[], low: number, high: number, moves: Move[]): void {
+function quickSort(array: number[], low: number, high: number, moves: SortMove[]): void {
 
     // Check if indices are valid
     if (low >= high || low < 0) {
@@ -21,7 +21,7 @@ function quickSort(array: number[], low: number, high: number, moves: Move[]): v
     quickSort(array, pivot + 1, high, moves);
 }
 
-function partition(array: number[], low: number, high: number, moves: Move[]): number {
+function partition(array: number[], low: number, high: number, moves: SortMove[]): number {
 
     // Set last element as pivot
     const pivot = array[high];

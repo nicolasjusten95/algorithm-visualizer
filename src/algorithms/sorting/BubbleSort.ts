@@ -1,12 +1,12 @@
-import {Move, SortingResult} from "../../api/SortingApi";
+import {SortMove, SortingResult} from "../../api/SortingApi";
 
 export function getBubbleSortMoves(array: number[]): SortingResult {
-    const moves: Move[] = [];
+    const moves: SortMove[] = [];
     bubbleSort(array, moves);
     return {sortedArray: array, moves: moves};
 }
 
-function bubbleSort(array: number[], moves: Move[]): void {
+function bubbleSort(array: number[], moves: SortMove[]): void {
     let swapped = false;
     let n = array.length;
     do {

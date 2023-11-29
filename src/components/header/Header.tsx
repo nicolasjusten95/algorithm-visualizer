@@ -18,9 +18,12 @@ import React, {MouseEvent, useState} from "react";
 import {Page} from "../../api/NavBarApi";
 import SortIcon from '@mui/icons-material/Sort';
 import {Settings} from "@mui/icons-material";
+import SearchIcon from '@mui/icons-material/Search';
 
 
 interface HeaderProps {
+    setIsShowSearchingAlgorithms: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsShowSortingAlgorithms: React.Dispatch<React.SetStateAction<boolean>>;
     setIsShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -36,12 +39,24 @@ const Header = (props: HeaderProps) => {
         setAnchorNav(null);
     };
 
+    const onSearchingAlgorithms = (): void => {
+        props.setIsShowSearchingAlgorithms(true);
+        props.setIsShowSortingAlgorithms(false);
+        props.setIsShowSettings(false);
+        onCloseMenu();
+    }
+
+
     const onSortingAlgorithms = (): void => {
+        props.setIsShowSearchingAlgorithms(false);
+        props.setIsShowSortingAlgorithms(true);
         props.setIsShowSettings(false);
         onCloseMenu();
     }
 
     const onSettings = (): void => {
+        props.setIsShowSearchingAlgorithms(false);
+        props.setIsShowSortingAlgorithms(false);
         props.setIsShowSettings(true);
         onCloseMenu();
     }
@@ -49,8 +64,9 @@ const Header = (props: HeaderProps) => {
     const title: string = 'Algorithm Visualizer';
     const icon: React.ReactElement = <BarChartIcon/>;
     const pages: Page [] = [
-        {name: 'Sorting Algorithms', icon: <SortIcon/>, onClick: onSortingAlgorithms, key: 1},
-        {name: 'Settings', icon: <Settings/>, onClick: onSettings, key: 2}
+        {name: 'Searching Algorithms', icon: <SearchIcon/>, onClick: onSearchingAlgorithms, key: 1},
+        {name: 'Sorting Algorithms', icon: <SortIcon/>, onClick: onSortingAlgorithms, key: 2},
+        {name: 'Settings', icon: <Settings/>, onClick: onSettings, key: 3}
     ];
 
     const getButtonFromPage = (page: Page): React.ReactElement => {

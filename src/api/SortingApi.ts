@@ -1,14 +1,14 @@
-export interface Move {
+export interface SortMove {
     indices: number[];
     swap: boolean;
 }
 
 export interface SortingResult {
     sortedArray: number[];
-    moves: Move[];
+    moves: SortMove[];
 }
 
-export interface QueueItem {
+export interface SortQueueItem {
     x: number;
     y: number;
     swap: boolean;

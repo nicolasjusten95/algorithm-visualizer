@@ -1,5 +1,5 @@
 import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
-import {Move, SortingResult} from "../../../api/SortingApi";
+import {SortMove, SortingResult} from "../../../api/SortingApi";
 import {Column} from "../../../api/Column";
 import {getMergeSortMoves} from "../../../algorithms/sorting/MergeSort";
 import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
@@ -7,41 +7,30 @@ import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, ButtonGroup} from "@mui/material";
+import {
+    CANVAS_MARGIN_FACTOR_HIGH_SIZES, CANVAS_MARGIN_FACTOR_LOW_SIZES,
+    DIAGONAL_FACTOR_HIGH_SIZES,
+    DIAGONAL_FACTOR_LOW_SIZES, MARGIN_BETWEEN_ELEMENTS, MAX_RELATIVE_HEIGHT_HIGH_SIZES, MAX_RELATIVE_HEIGHT_LOW_SIZES
+} from "../../../api/Constants";
+import {Settings} from "../../../api/SettingsApi";
 
 
-interface SortingAlgorithmsProps {
-    arraySize: number;
-    frameCount: number;
-}
-
-const MAX_RELATIVE_HEIGHT_LOW_SIZES: number = 0.5;
-const MAX_RELATIVE_HEIGHT_HIGH_SIZES: number = 0.8;
-const DIAGONAL_FACTOR_LOW_SIZES: number = 1;
-const DIAGONAL_FACTOR_HIGH_SIZES: number = 0.5;
-const CANVAS_MARGIN_FACTOR_HIGH_SIZES: number = 0.2;
-const CANVAS_MARGIN_FACTOR_LOW_SIZES: number = 0.4;
-const MARGIN_BETWEEN_ELEMENTS: number = 4;
-
-const SortingAlgorithms = (props: SortingAlgorithmsProps) => {
+const SortingAlgorithms = (props: Settings) => {
 
     const [array, setArray] = useState<number[]>([]);
     const [canvasContext, setCanvasContext] = useState<CanvasRenderingContext2D | null>(null);
 
     const columns: Column[] = [];
-    let moves: Move[] = [];
+    let moves: SortMove[] = [];
 
     useEffect(() => {
         resetArray();
         // Re-render component if screensize changes to adjust canvas
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', onGenerateNewArray);
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', onGenerateNewArray);
         }
     }, []);
-
-    function handleResize() {
-        resetArray();
-    }
 
     const resetArray = (): void => {
         const newArray: number[] = generateRandomArrayWithoutDuplicates(props.arraySize);
@@ -95,7 +84,7 @@ const SortingAlgorithms = (props: SortingAlgorithmsProps) => {
             const y: number = canvasContext.canvas.height - canvasMargin - i * diagonalFactor;
             const width: number = spacing - MARGIN_BETWEEN_ELEMENTS;
             const height: number = canvasContext.canvas.height * maxRelativeHeight * array[i];
-            columns[i] = new Column(x, y, width, height);
+            columns[i] = new Column(x, y, width, height, false);
         }
 
         animate();
@@ -115,16 +104,16 @@ const SortingAlgorithms = (props: SortingAlgorithmsProps) => {
         }
 
         if (!changed && moves.length > 0) {
-            const move: Move | undefined = moves.shift();
+            const move: SortMove | undefined = moves.shift();
             if (move) {
                 const [i, j] = move.indices;
                 if (move.swap) {
-                    columns[i].moveTo(columns[j], 1, props.frameCount);
-                    columns[j].moveTo(columns[i], -1, props.frameCount);
+                    columns[i].moveToSort(columns[j], 1, props.frameCount);
+                    columns[j].moveToSort(columns[i], -1, props.frameCount);
                     [columns[i], columns[j]] = [columns[j], columns[i]];
                 } else {
-                    columns[i].jump(props.frameCount);
-                    columns[j].jump(props.frameCount);
+                    columns[i].jumpSort(props.frameCount);
+                    columns[j].jumpSort(props.frameCount);
                 }
             }
         }
