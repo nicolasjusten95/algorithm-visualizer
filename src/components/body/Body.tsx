@@ -2,7 +2,7 @@ import SortingAlgorithms from "./sortingAlgorithms/SortingAlgorithms";
 import React, {useState} from "react";
 import {Box} from "@mui/material";
 import Settings from "./settings/Settings";
-import SearchingAlgorithms from "./SearchingAlgorithms";
+import SearchingAlgorithms from "./searchingAlgorithms/SearchingAlgorithms";
 
 
 interface BodyProps {

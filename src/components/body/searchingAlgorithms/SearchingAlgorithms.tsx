@@ -1,13 +1,15 @@
 import {Fragment, useEffect, useState} from "react";
-import {Column} from "../../api/Column";
-import {generateRandomArrayWithoutDuplicates} from "../../utils/ArrayUtils";
-import Canvas, {resizeCanvasToContainerSize} from "./canvas/Canvas";
+import {Column} from "../../../api/Column";
+import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
+import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
 import {Box, Button, ButtonGroup} from "@mui/material";
-import {getQuickSortMoves} from "../../algorithms/sorting/QuickSort";
-import {SearchMove, SearchResult} from "../../api/SearchingApi";
-import {getLinearSearchMoves} from "../../algorithms/searching/LinearSearch";
-import {Settings} from "../../api/SettingsApi";
-import {calculateColumns} from "../../utils/CanvasUtils";
+import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
+import {SearchMove, SearchResult} from "../../../api/SearchingApi";
+import {getLinearSearchMoves} from "../../../algorithms/searching/LinearSearch";
+import {Settings} from "../../../api/SettingsApi";
+import {calculateColumns} from "../../../utils/CanvasUtils";
+import {getBinarySearchMoves} from "../../../algorithms/searching/BinarySearch";
+import {getInterpolationSearchMoves} from "../../../algorithms/searching/InterpolationSearch";
 
 
 const SearchingAlgorithms = (props: Settings) => {
@@ -51,6 +53,17 @@ const SearchingAlgorithms = (props: Settings) => {
         setMoves(result.moves);
     }
 
+    function onBinarySearch() {
+        const result: SearchResult = getBinarySearchMoves(array, value);
+        setMoves(result.moves);
+    }
+
+    function onInterpolationSearch() {
+        const result: SearchResult = getInterpolationSearchMoves(array, value);
+        setMoves(result.moves);
+    }
+
+
     const draw = (context: CanvasRenderingContext2D): void => {
         setCanvasContext(context);
         if (!canvasContext) {
@@ -92,6 +105,8 @@ const SearchingAlgorithms = (props: Settings) => {
                 sx={{m: 2}}>
                 <Button onClick={onGenerateNewArray}>Generate new array</Button>
                 <Button onClick={onLinearSearch}>Linear Search</Button>
+                <Button onClick={onBinarySearch}>Binary Search</Button>
+                <Button onClick={onInterpolationSearch}>Interpolation Search</Button>
             </ButtonGroup>
         </Fragment>
     );

@@ -13,6 +13,7 @@ import {
     DIAGONAL_FACTOR_LOW_SIZES, MARGIN_BETWEEN_ELEMENTS, MAX_RELATIVE_HEIGHT_HIGH_SIZES, MAX_RELATIVE_HEIGHT_LOW_SIZES
 } from "../../../api/Constants";
 import {Settings} from "../../../api/SettingsApi";
+import {calculateColumns} from "../../../utils/CanvasUtils";
 
 
 const SortingAlgorithms = (props: Settings) => {
