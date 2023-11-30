@@ -1,5 +1,5 @@
 import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
-import {SortMove, SortingResult} from "../../../api/SortingApi";
+import {SortingResult, SortMove} from "../../../api/SortingApi";
 import {Column} from "../../../api/Column";
 import {getMergeSortMoves} from "../../../algorithms/sorting/MergeSort";
 import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
@@ -8,12 +8,15 @@ import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {Fragment, useEffect, useState} from "react";
 import {Box, Button, ButtonGroup} from "@mui/material";
 import {
-    CANVAS_MARGIN_FACTOR_HIGH_SIZES, CANVAS_MARGIN_FACTOR_LOW_SIZES,
+    CANVAS_MARGIN_FACTOR_HIGH_SIZES,
+    CANVAS_MARGIN_FACTOR_LOW_SIZES,
     DIAGONAL_FACTOR_HIGH_SIZES,
-    DIAGONAL_FACTOR_LOW_SIZES, MARGIN_BETWEEN_ELEMENTS, MAX_RELATIVE_HEIGHT_HIGH_SIZES, MAX_RELATIVE_HEIGHT_LOW_SIZES
+    DIAGONAL_FACTOR_LOW_SIZES,
+    MARGIN_BETWEEN_ELEMENTS,
+    MAX_RELATIVE_HEIGHT_HIGH_SIZES,
+    MAX_RELATIVE_HEIGHT_LOW_SIZES
 } from "../../../api/Constants";
 import {Settings} from "../../../api/SettingsApi";
-import {calculateColumns} from "../../../utils/CanvasUtils";
 
 
 const SortingAlgorithms = (props: Settings) => {
@@ -43,37 +46,28 @@ const SortingAlgorithms = (props: Settings) => {
     }
 
     function onBubbleSort() {
-        if (moves.length > 0) {
-            return;
-        }
+        if (moves.length > 0) return;
         const result: SortingResult = getBubbleSortMoves(array);
         moves = result.moves;
     }
 
     function onQuickSort() {
-        if (moves.length > 0) {
-            return;
-        }
+        if (moves.length > 0) return;
         const result: SortingResult = getQuickSortMoves(array);
         moves = result.moves;
     }
 
     function onMergeSort() {
-        if (moves.length > 0) {
-            return;
-        }
+        if (moves.length > 0) return;
         const result: SortingResult = getMergeSortMoves(array);
         moves = result.moves;
     }
 
     const draw = (context: CanvasRenderingContext2D): void => {
-
         setCanvasContext(context);
-
         if (!canvasContext) {
             return;
         }
-
         resizeCanvasToContainerSize(canvasContext.canvas);
         const diagonalFactor: number = array.length > 20 ? DIAGONAL_FACTOR_HIGH_SIZES : DIAGONAL_FACTOR_LOW_SIZES;
         const canvasMarginFactor: number = array.length > 8 ? CANVAS_MARGIN_FACTOR_HIGH_SIZES : CANVAS_MARGIN_FACTOR_LOW_SIZES;
@@ -87,23 +81,18 @@ const SortingAlgorithms = (props: Settings) => {
             const height: number = canvasContext.canvas.height * maxRelativeHeight * array[i];
             columns[i] = new Column(x, y, width, height, false);
         }
-
         animate();
     }
 
     function animate() {
-
         if (!canvasContext) {
             return;
         }
-
         canvasContext.clearRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height);
-
         let changed = false;
         for (const col of columns) {
             changed = col.draw(canvasContext) || changed;
         }
-
         if (!changed && moves.length > 0) {
             const move: SortMove | undefined = moves.shift();
             if (move) {
@@ -118,7 +107,6 @@ const SortingAlgorithms = (props: Settings) => {
                 }
             }
         }
-
         requestAnimationFrame(animate);
     }
 

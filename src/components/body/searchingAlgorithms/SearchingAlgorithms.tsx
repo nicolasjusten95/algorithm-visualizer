@@ -7,9 +7,17 @@ import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
 import {SearchMove, SearchResult} from "../../../api/SearchingApi";
 import {getLinearSearchMoves} from "../../../algorithms/searching/LinearSearch";
 import {Settings} from "../../../api/SettingsApi";
-import {calculateColumns} from "../../../utils/CanvasUtils";
 import {getBinarySearchMoves} from "../../../algorithms/searching/BinarySearch";
 import {getInterpolationSearchMoves} from "../../../algorithms/searching/InterpolationSearch";
+import {
+    CANVAS_MARGIN_FACTOR_HIGH_SIZES,
+    CANVAS_MARGIN_FACTOR_LOW_SIZES,
+    DIAGONAL_FACTOR_HIGH_SIZES,
+    DIAGONAL_FACTOR_LOW_SIZES,
+    MARGIN_BETWEEN_ELEMENTS,
+    MAX_RELATIVE_HEIGHT_HIGH_SIZES,
+    MAX_RELATIVE_HEIGHT_LOW_SIZES
+} from "../../../api/Constants";
 
 
 const SearchingAlgorithms = (props: Settings) => {
@@ -17,12 +25,12 @@ const SearchingAlgorithms = (props: Settings) => {
     const [array, setArray] = useState<number[]>([]);
     const [value, setValue] = useState<number>(5);
     const [canvasContext, setCanvasContext] = useState<CanvasRenderingContext2D | null>(null);
-    const [columns, setColumns] = useState<Column[]>([]);
-    const [moves, setMoves] = useState<SearchMove[]>([]);
+    let columns: Column[] = [];
+    let moves: SearchMove[] = [];
 
     useEffect(() => {
         if (canvasContext) {
-            resetExample(canvasContext);
+            resetExample();
         }
         // Re-render component if screensize changes to adjust canvas
         window.addEventListener('resize', onGenerateNewArray);
@@ -31,38 +39,37 @@ const SearchingAlgorithms = (props: Settings) => {
         }
     }, [canvasContext]);
 
-    const resetExample = (canvasContext: CanvasRenderingContext2D): void => {
+    const resetExample = (): void => {
         const newArray: number[] = generateRandomArrayWithoutDuplicates(props.arraySize);
         getQuickSortMoves(newArray);
         const newValue: number = newArray[Math.floor(Math.random() * newArray.length)];
-        const newColumns: Column[] = calculateColumns(newArray, newValue, canvasContext);
         setArray(newArray);
         setValue(newValue);
-        setColumns(newColumns);
-        setMoves([]);
     }
 
     function onGenerateNewArray() {
         if (canvasContext) {
-            resetExample(canvasContext);
+            resetExample();
         }
     }
 
     function onLinearSearch() {
+        if (moves.length > 0) return;
         const result: SearchResult = getLinearSearchMoves(array, value);
-        setMoves(result.moves);
+        moves = result.moves;
     }
 
     function onBinarySearch() {
+        if (moves.length > 0) return;
         const result: SearchResult = getBinarySearchMoves(array, value);
-        setMoves(result.moves);
+        moves = result.moves;
     }
 
     function onInterpolationSearch() {
+        if (moves.length > 0) return;
         const result: SearchResult = getInterpolationSearchMoves(array, value);
-        setMoves(result.moves);
+        moves = result.moves;
     }
-
 
     const draw = (context: CanvasRenderingContext2D): void => {
         setCanvasContext(context);
@@ -70,6 +77,19 @@ const SearchingAlgorithms = (props: Settings) => {
             return;
         }
         resizeCanvasToContainerSize(canvasContext.canvas);
+        const diagonalFactor: number = array.length > 20 ? DIAGONAL_FACTOR_HIGH_SIZES : DIAGONAL_FACTOR_LOW_SIZES;
+        const canvasMarginFactor: number = array.length > 8 ? CANVAS_MARGIN_FACTOR_HIGH_SIZES : CANVAS_MARGIN_FACTOR_LOW_SIZES;
+        const canvasMargin: number = canvasContext.canvas.height * canvasMarginFactor * 0.5;
+        const maxRelativeHeight: number = array.length > 8 ? MAX_RELATIVE_HEIGHT_HIGH_SIZES : MAX_RELATIVE_HEIGHT_LOW_SIZES;
+        const spacing: number = (canvasContext.canvas.width - canvasMargin * 2) / array.length;
+        for (let i = 0; i < array.length; i++) {
+            const x: number = i * spacing + spacing / 2 + canvasMargin;
+            const y: number = canvasContext.canvas.height - canvasMargin - i * diagonalFactor;
+            const width: number = spacing - MARGIN_BETWEEN_ELEMENTS;
+            const height: number = canvasContext.canvas.height * maxRelativeHeight * array[i];
+            const isSearchValue: boolean = array[i] === value;
+            columns[i] = new Column(x, y, width, height, isSearchValue);
+        }
         animate();
     }
 
