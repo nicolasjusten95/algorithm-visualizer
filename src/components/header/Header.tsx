@@ -100,7 +100,7 @@ const Header = (props: HeaderProps) => {
                     edge='start'
                     color='inherit'
                     aria-label='logo'
-                    onClick={onSortingAlgorithms}>
+                    onClick={onSearchingAlgorithms}>
                     {icon}
                 </IconButton>
                 <Typography
