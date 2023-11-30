@@ -46,7 +46,6 @@ const Header = (props: HeaderProps) => {
         onCloseMenu();
     }
 
-
     const onSortingAlgorithms = (): void => {
         props.setIsShowSearchingAlgorithms(false);
         props.setIsShowSortingAlgorithms(true);

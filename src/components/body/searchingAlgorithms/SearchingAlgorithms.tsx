@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {Column} from "../../../api/Column";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
@@ -120,9 +120,20 @@ const SearchingAlgorithms = (props: Settings) => {
                 id='canvasContainer'>
                 <Canvas draw={draw}/>
             </Box>
+            {/*For some reason orientation is not working with breakpoint*/}
             <ButtonGroup
                 variant='contained'
-                sx={{m: 2}}>
+                orientation='horizontal'
+                sx={{display: {xs: "none", md: "flex"}, m: 2}}>
+                <Button onClick={onGenerateNewArray}>Generate new array</Button>
+                <Button onClick={onLinearSearch}>Linear Search</Button>
+                <Button onClick={onBinarySearch}>Binary Search</Button>
+                <Button onClick={onInterpolationSearch}>Interpolation Search</Button>
+            </ButtonGroup>
+            <ButtonGroup
+                variant='contained'
+                orientation='vertical'
+                sx={{display: {xs: "flex", md: "none"}, m: 2}}>
                 <Button onClick={onGenerateNewArray}>Generate new array</Button>
                 <Button onClick={onLinearSearch}>Linear Search</Button>
                 <Button onClick={onBinarySearch}>Binary Search</Button>

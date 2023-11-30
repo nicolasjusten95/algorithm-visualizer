@@ -6,7 +6,7 @@ import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
 import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {Fragment, useEffect, useState} from "react";
-import {Box, Button, ButtonGroup} from "@mui/material";
+import {Box, Button, ButtonGroup, Stack} from "@mui/material";
 import {
     CANVAS_MARGIN_FACTOR_HIGH_SIZES,
     CANVAS_MARGIN_FACTOR_LOW_SIZES,
@@ -119,9 +119,20 @@ const SortingAlgorithms = (props: Settings) => {
                 id='canvasContainer'>
                 <Canvas draw={draw}/>
             </Box>
+            {/*For some reason orientation is not working with breakpoint*/}
             <ButtonGroup
                 variant='contained'
-                sx={{m: 2}}>
+                orientation='horizontal'
+                sx={{display: {xs: "none", md: "flex"}, m: 2}}>
+                <Button onClick={onGenerateNewArray}>Generate new array</Button>
+                <Button onClick={onBubbleSort}>Bubble Sort</Button>
+                <Button onClick={onQuickSort}>Quick Sort</Button>
+                <Button onClick={onMergeSort}>Merge Sort</Button>
+            </ButtonGroup>
+            <ButtonGroup
+                variant='contained'
+                orientation='vertical'
+                sx={{display: {xs: "flex", md: "none"}, m: 2}}>
                 <Button onClick={onGenerateNewArray}>Generate new array</Button>
                 <Button onClick={onBubbleSort}>Bubble Sort</Button>
                 <Button onClick={onQuickSort}>Quick Sort</Button>
