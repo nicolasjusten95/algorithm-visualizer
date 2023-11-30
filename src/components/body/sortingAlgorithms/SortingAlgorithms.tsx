@@ -6,7 +6,7 @@ import {getQuickSortMoves} from "../../../algorithms/sorting/QuickSort";
 import {getBubbleSortMoves} from "../../../algorithms/sorting/BubbleSort";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import {Fragment, useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, Stack} from "@mui/material";
+import {Box, Button, ButtonGroup} from "@mui/material";
 import {
     CANVAS_MARGIN_FACTOR_HIGH_SIZES,
     CANVAS_MARGIN_FACTOR_LOW_SIZES,
@@ -17,6 +17,9 @@ import {
     MAX_RELATIVE_HEIGHT_LOW_SIZES
 } from "../../../api/Constants";
 import {Settings} from "../../../api/SettingsApi";
+import {getSelectionSortMoves} from "../../../algorithms/sorting/SelectionSort";
+import {getInsertionSortMoves} from "../../../algorithms/sorting/InsertionSort";
+import {ButtonApi} from "../../../api/ButtonApi";
 
 
 const SortingAlgorithms = (props: Settings) => {
@@ -44,6 +47,19 @@ const SortingAlgorithms = (props: Settings) => {
     function onGenerateNewArray() {
         resetArray();
     }
+
+    function onSelectionSort() {
+        if (moves.length > 0) return;
+        const result: SortingResult = getSelectionSortMoves(array);
+        moves = result.moves;
+    }
+
+    function onInsertionSort() {
+        if (moves.length > 0) return;
+        const result: SortingResult = getInsertionSortMoves(array);
+        moves = result.moves;
+    }
+
 
     function onBubbleSort() {
         if (moves.length > 0) return;
@@ -110,6 +126,15 @@ const SortingAlgorithms = (props: Settings) => {
         requestAnimationFrame(animate);
     }
 
+    const buttons: ButtonApi[] = [
+        {key: 1, onClick: onGenerateNewArray, text: 'Generate new array'},
+        {key: 2, onClick: onSelectionSort, text: 'Selection Sort'},
+        {key: 3, onClick: onInsertionSort, text: 'Insertion Sort'},
+        {key: 4, onClick: onBubbleSort, text: 'Bubble Sort'},
+        {key: 5, onClick: onMergeSort, text: 'Merge Sort'},
+        {key: 6, onClick: onQuickSort, text: 'Quick Sort'},
+    ];
+
     return (
         <Fragment>
             <Box
@@ -124,19 +149,13 @@ const SortingAlgorithms = (props: Settings) => {
                 variant='contained'
                 orientation='horizontal'
                 sx={{display: {xs: "none", md: "flex"}, m: 2}}>
-                <Button onClick={onGenerateNewArray}>Generate new array</Button>
-                <Button onClick={onBubbleSort}>Bubble Sort</Button>
-                <Button onClick={onQuickSort}>Quick Sort</Button>
-                <Button onClick={onMergeSort}>Merge Sort</Button>
+                {buttons.map(i => <Button key={i.key} onClick={i.onClick}>{i.text}</Button>)}
             </ButtonGroup>
             <ButtonGroup
                 variant='contained'
                 orientation='vertical'
                 sx={{display: {xs: "flex", md: "none"}, m: 2}}>
-                <Button onClick={onGenerateNewArray}>Generate new array</Button>
-                <Button onClick={onBubbleSort}>Bubble Sort</Button>
-                <Button onClick={onQuickSort}>Quick Sort</Button>
-                <Button onClick={onMergeSort}>Merge Sort</Button>
+                {buttons.map(i => <Button key={i.key} onClick={i.onClick}>{i.text}</Button>)}
             </ButtonGroup>
         </Fragment>
     );

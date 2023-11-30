@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useRef, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Column} from "../../../api/Column";
 import {generateRandomArrayWithoutDuplicates} from "../../../utils/ArrayUtils";
 import Canvas, {resizeCanvasToContainerSize} from "../canvas/Canvas";
@@ -18,6 +18,7 @@ import {
     MAX_RELATIVE_HEIGHT_HIGH_SIZES,
     MAX_RELATIVE_HEIGHT_LOW_SIZES
 } from "../../../api/Constants";
+import {ButtonApi} from "../../../api/ButtonApi";
 
 
 const SearchingAlgorithms = (props: Settings) => {
@@ -111,6 +112,13 @@ const SearchingAlgorithms = (props: Settings) => {
         requestAnimationFrame(animate);
     }
 
+    const buttons: ButtonApi[] = [
+        {key: 1, onClick: onGenerateNewArray, text: 'Generate new array'},
+        {key: 2, onClick: onLinearSearch, text: 'Linear Search'},
+        {key: 3, onClick: onBinarySearch, text: 'Binary Search'},
+        {key: 4, onClick: onInterpolationSearch, text: 'Interpolation Search'},
+    ];
+
     return (
         <Fragment>
             <Box
@@ -125,19 +133,13 @@ const SearchingAlgorithms = (props: Settings) => {
                 variant='contained'
                 orientation='horizontal'
                 sx={{display: {xs: "none", md: "flex"}, m: 2}}>
-                <Button onClick={onGenerateNewArray}>Generate new array</Button>
-                <Button onClick={onLinearSearch}>Linear Search</Button>
-                <Button onClick={onBinarySearch}>Binary Search</Button>
-                <Button onClick={onInterpolationSearch}>Interpolation Search</Button>
+                {buttons.map(i => <Button key={i.key} onClick={i.onClick}>{i.text}</Button>)}
             </ButtonGroup>
             <ButtonGroup
                 variant='contained'
                 orientation='vertical'
                 sx={{display: {xs: "flex", md: "none"}, m: 2}}>
-                <Button onClick={onGenerateNewArray}>Generate new array</Button>
-                <Button onClick={onLinearSearch}>Linear Search</Button>
-                <Button onClick={onBinarySearch}>Binary Search</Button>
-                <Button onClick={onInterpolationSearch}>Interpolation Search</Button>
+                {buttons.map(i => <Button key={i.key} onClick={i.onClick}>{i.text}</Button>)}
             </ButtonGroup>
         </Fragment>
     );
